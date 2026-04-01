@@ -159,7 +159,7 @@ function BrandManager() {
       <div className="table-header">
         <div>
           <h1>Productos - Marcas</h1>
-          <p>Gestiona marcas y pais de origen.</p>
+          <p>Gestiona marcas de productos.</p>
         </div>
         <button type="button" className="primary-btn" onClick={openCreateModal}>
           Crear marca

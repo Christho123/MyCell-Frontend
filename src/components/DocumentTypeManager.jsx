@@ -141,7 +141,7 @@ function DocumentTypeManager() {
       <div className="table-header">
         <div>
           <h1>Configuracion - Tipo Documento</h1>
-          <p>Administra tipos de documento con paginacion y acciones.</p>
+          <p>Gestione los tipos de documentos.</p>
         </div>
         <button type="button" className="primary-btn" onClick={openCreateModal}>
           Crear documento

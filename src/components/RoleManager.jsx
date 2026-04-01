@@ -141,7 +141,7 @@ function RoleManager() {
       <div className="table-header">
         <div>
           <h1>Configuracion - Roles</h1>
-          <p>Administra roles con paginacion y acciones.</p>
+          <p>Gestione los roles de empleados.</p>
         </div>
         <button type="button" className="primary-btn" onClick={openCreateModal}>
           Crear rol

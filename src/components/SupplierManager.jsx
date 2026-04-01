@@ -246,7 +246,7 @@ function SupplierManager() {
       <div className="table-header">
         <div>
           <h1>Productos - Proveedores</h1>
-          <p>Gestiona proveedores y ubicacion (region, provincia, distrito).</p>
+          <p>Gestone proveedores</p>
         </div>
         <button type="button" className="primary-btn" onClick={openCreateModal}>
           Crear proveedor

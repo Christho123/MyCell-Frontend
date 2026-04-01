@@ -315,7 +315,7 @@ function EmployeeManager() {
       <div className="table-header">
         <div>
           <h1>Empleados</h1>
-          <p>CRUD completo de empleados con foto y jerarquia ubigeo.</p>
+          <p>Gestione empleados</p>
         </div>
         <button type="button" className="primary-btn" onClick={openCreateModal}>
           Crear empleado

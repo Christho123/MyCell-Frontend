@@ -247,8 +247,8 @@ function ProductManager() {
     <section className="content-card">
       <div className="table-header">
         <div>
-          <h1>Productos - Catalogo</h1>
-          <p>CRUD de productos con foto y relaciones.</p>
+          <h1>Productos</h1>
+          <p>Catalogo el catalogo de productos</p>
         </div>
         <button type="button" className="primary-btn" onClick={openCreateModal}>
           Crear producto
@@ -273,7 +273,7 @@ function ProductManager() {
         </select>
       </div>
 
-      {error ? <p className="feedback error">{error}</p> : null}
+      {error ? <div className="feedback error">{error}</div> : null}
 
       <div className="table-wrapper">
         <table className="doc-table doc-table-products">
@@ -291,12 +291,16 @@ function ProductManager() {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="8">Cargando...</td>
+              <tr className="table-state-row">
+                <td colSpan="8">
+                  <div className="table-state">Cargando...</div>
+                </td>
               </tr>
             ) : rows.length === 0 ? (
-              <tr>
-                <td colSpan="8">Sin registros</td>
+              <tr className="table-state-row">
+                <td colSpan="8">
+                  <div className="table-state">Sin registros</div>
+                </td>
               </tr>
             ) : (
               rows.map((item) => {
@@ -305,30 +309,30 @@ function ProductManager() {
                   <tr key={item.id}>
                     <td className="td-photo">
                       {thumb ? (
-                        <img
-                          className="product-table-thumb"
-                          src={thumb}
-                          alt=""
-                        />
+                        <img className="product-table-thumb" src={thumb} alt="" />
                       ) : (
                         <span className="product-table-thumb placeholder">—</span>
                       )}
                     </td>
-                    <td>{item.name}</td>
-                    <td>{item.model || '-'}</td>
-                    <td>{item.category?.name || item.category_name || '-'}</td>
-                    <td>{item.sales_price ?? '-'}</td>
-                    <td>{item.stock ?? '-'}</td>
-                    <td>{item.state ? 'Activo' : 'Inactivo'}</td>
+                    <td className="td-strong">{item.name}</td>
+                    <td className="td-muted">{item.model || '—'}</td>
+                    <td>{item.category?.name || item.category_name || '—'}</td>
+                    <td className="td-mono">{item.sales_price ?? '—'}</td>
+                    <td className="td-mono">{item.stock ?? '—'}</td>
+                    <td>
+                      <span className={`status-badge ${item.state ? 'active' : 'inactive'}`}>
+                        {item.state ? 'Activo' : 'Inactivo'}
+                      </span>
+                    </td>
                     <td>
                       <div className="action-group">
-                        <button type="button" onClick={() => openDetailModal(item)}>
-                          Ver detalle
+                        <button type="button" className="action-btn view" onClick={() => openDetailModal(item)}>
+                          Ver
                         </button>
-                        <button type="button" onClick={() => openEditModal(item)}>
+                        <button type="button" className="action-btn edit" onClick={() => openEditModal(item)}>
                           Editar
                         </button>
-                        <button type="button" onClick={() => openDeleteModal(item)}>
+                        <button type="button" className="action-btn delete" onClick={() => openDeleteModal(item)}>
                           Eliminar
                         </button>
                       </div>
@@ -346,7 +350,7 @@ function ProductManager() {
           Anterior
         </button>
         <span>
-          Pagina {page} de {totalPages}
+          {page} de {totalPages}
         </span>
         <button
           type="button"
@@ -367,110 +371,130 @@ function ProductManager() {
                   className="profile-form profile-grid"
                   onSubmit={modalType === 'create' ? handleCreateSubmit : handleEditSubmit}
                 >
-                  <label>Nombre</label>
-                  <input
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, name: e.target.value }))
-                    }
-                    required
-                  />
-                  <label>Descripcion</label>
-                  <input
-                    value={formData.description}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, description: e.target.value }))
-                    }
-                  />
-                  <label>Modelo</label>
-                  <input
-                    value={formData.model}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, model: e.target.value }))
-                    }
-                    required
-                  />
-                  <label>Precio unitario</label>
-                  <input
-                    value={formData.unit_price}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, unit_price: e.target.value }))
-                    }
-                    required
-                  />
-                  <label>Precio venta</label>
-                  <input
-                    value={formData.sales_price}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, sales_price: e.target.value }))
-                    }
-                    required
-                  />
-                  <label>Stock</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.stock}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        stock: Number(e.target.value),
-                      }))
-                    }
-                    required
-                  />
-                  <label>Descuento</label>
-                  <input
-                    value={formData.discount}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, discount: e.target.value }))
-                    }
-                  />
-                  <label>Categoria</label>
-                  <select
-                    value={formData.category_id}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, category_id: e.target.value }))
-                    }
-                    required
-                  >
-                    <option value="">Seleccionar</option>
-                    {categories.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name}
-                      </option>
-                    ))}
-                  </select>
-                  <label>Proveedor</label>
-                  <select
-                    value={formData.supplier_id}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, supplier_id: e.target.value }))
-                    }
-                    required
-                  >
-                    <option value="">Seleccionar</option>
-                    {suppliers.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.company_name || s.business_name || s.ruc}
-                      </option>
-                    ))}
-                  </select>
-                  <label>Marca</label>
-                  <select
-                    value={formData.brand_id}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, brand_id: e.target.value }))
-                    }
-                    required
-                  >
-                    <option value="">Seleccionar</option>
-                    {brands.map((b) => (
-                      <option key={b.id} value={b.id}>
-                        {b.name}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="form-field">
+                    <label>Nombre</label>
+                    <input
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, name: e.target.value }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Modelo</label>
+                    <input
+                      value={formData.model}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, model: e.target.value }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="form-field form-field-full">
+                    <label>Descripcion</label>
+                    <input
+                      value={formData.description}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, description: e.target.value }))
+                      }
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Precio unitario</label>
+                    <input
+                      value={formData.unit_price}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, unit_price: e.target.value }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Precio venta</label>
+                    <input
+                      value={formData.sales_price}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, sales_price: e.target.value }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Stock</label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={formData.stock}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          stock: Number(e.target.value),
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Descuento</label>
+                    <input
+                      value={formData.discount}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, discount: e.target.value }))
+                      }
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Categoria</label>
+                    <select
+                      value={formData.category_id}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, category_id: e.target.value }))
+                      }
+                      required
+                    >
+                      <option value="">Seleccionar</option>
+                      {categories.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-field">
+                    <label>Proveedor</label>
+                    <select
+                      value={formData.supplier_id}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, supplier_id: e.target.value }))
+                      }
+                      required
+                    >
+                      <option value="">Seleccionar</option>
+                      {suppliers.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.company_name || s.business_name || s.ruc}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-field">
+                    <label>Marca</label>
+                    <select
+                      value={formData.brand_id}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, brand_id: e.target.value }))
+                      }
+                      required
+                    >
+                      <option value="">Seleccionar</option>
+                      {brands.map((b) => (
+                        <option key={b.id} value={b.id}>
+                          {b.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <div className="checkbox-row">
                     <input
                       id="product-state"
@@ -507,7 +531,10 @@ function ProductManager() {
                   <div>
                     <h3>{selectedItem?.name}</h3>
                     <p className="employee-subtitle">
-                      {selectedItem?.model} · {selectedItem?.category_name || selectedItem?.category?.name}
+                      {selectedItem?.model || 'Sin modelo'}
+                      {selectedItem?.category_name || selectedItem?.category?.name
+                        ? ` · ${selectedItem.category_name || selectedItem.category?.name}`
+                        : ''}
                     </p>
                   </div>
                 </div>
@@ -521,30 +548,35 @@ function ProductManager() {
                   <article>
                     <span>Stock / Descuento</span>
                     <strong>
-                      {selectedItem?.stock} u. · Desc. {selectedItem?.discount ?? '-'}
+                      {selectedItem?.stock} u. · Desc. {selectedItem?.discount ?? '—'}
                     </strong>
                   </article>
                   <article>
                     <span>Marca / Proveedor</span>
                     <strong>
-                      {selectedItem?.brand_name || selectedItem?.brand?.name} ·{' '}
-                      {selectedItem?.supplier?.company_name || '-'}
+                      {selectedItem?.brand_name || selectedItem?.brand?.name || '—'} ·{' '}
+                      {selectedItem?.supplier?.company_name || '—'}
                     </strong>
                   </article>
                   <article>
                     <span>Estado</span>
-                    <strong>{selectedItem?.state ? 'Activo' : 'Inactivo'}</strong>
+                    <strong>
+                      <span className={`status-badge ${selectedItem?.state ? 'active' : 'inactive'}`}>
+                        {selectedItem?.state ? 'Activo' : 'Inactivo'}
+                      </span>
+                    </strong>
                   </article>
                 </div>
-                <p className="detail-description">
-                  {selectedItem?.description || 'Sin descripcion.'}
-                </p>
+                {selectedItem?.description && (
+                  <p className="detail-description">{selectedItem.description}</p>
+                )}
                 <div className="employee-photo-actions">
                   <button type="button" onClick={handleOpenPhoto} disabled={saving}>
                     {saving ? 'Procesando...' : 'Subir / Reemplazar foto'}
                   </button>
                   <button
                     type="button"
+                    className="photo-delete-btn"
                     onClick={handleDeletePhoto}
                     disabled={saving || !selectedItem?.photo_url}
                   >
@@ -569,8 +601,9 @@ function ProductManager() {
             {modalType === 'delete' && (
               <>
                 <h3>Confirmar eliminacion</h3>
-                <p>
-                  Seguro que quiere eliminar el producto &quot;{selectedItem?.name}&quot;?
+                <p className="delete-text">
+                  Seguro que desea eliminar el producto <strong>&quot;{selectedItem?.name}&quot;</strong>?
+                  Esta accion no se puede deshacer.
                 </p>
                 <div className="modal-actions">
                   <button type="button" onClick={closeModal}>
