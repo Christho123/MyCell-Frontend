@@ -1,8 +1,0 @@
-{
-    "routes": [
-      {
-        "route": "/api/*",
-        "rewrite": "http://20.163.59.218:8000/api/:splat"
-      }
-    ]
-  }
