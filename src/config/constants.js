@@ -1,4 +1,4 @@
-export const API_BASE_URL = '/api/'
+export const API_BASE_URL = 'http://20.163.59.218:8000/api/'
 
 export const API_ENDPOINTS = {
   login: 'architect/auth/login/',
